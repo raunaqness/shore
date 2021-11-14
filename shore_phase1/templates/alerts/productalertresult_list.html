@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Product Alert Results (Total : {{object_list|length}})</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+            <th scope="col">Product Alert</th>
+            <th scope="col">Response</th>
+            <th scope="col">Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in object_list %}
+                <tr>
+                    <td>{{ productalertresult.product_alert }}</td>
+                    <td>{{ productalertresult.response }}</td>
+                    <td>{{ productalertresult.created_at }}</td>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+        </table>
+
+{% endblock %}
+

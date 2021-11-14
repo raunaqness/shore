@@ -1,0 +1,55 @@
+version: '3.3'
+
+services:
+  redis:
+    network_mode: host
+    image: redis:alpine
+  phase_1:
+    network_mode: host
+    image: shore_phase1:latest
+    command: "bash start.sh"
+    volumes:
+      - ./shore_phase1:/home/shore_phase1
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY='django-insecure-n+m_j=ntw9skx#hu5_0ktt%a(i@drj3+1f_0zv*j(mc131q&i$$'
+    depends_on:
+      - redis
+  phase_2:
+    network_mode: host
+    image: shore_phase2:latest
+    command: ["bash", "start.sh"]
+    volumes:
+      - ./shore_phase2:/home/shore_phase2
+    ports:
+      - 8001:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY='django-insecure-2dfmtyck4u4w(y^s6wjb6lqnv71vi8z#oxbe$$vb4@x8lb77zkv'
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+    depends_on:
+      - redis
+  celery:
+    network_mode: host
+    image: shore_phase1:latest 
+    command: celery -A shore_phase1 worker -l info
+    volumes:
+      - ./shore_phase1:/home/shore_phase1
+    environment:
+      - DEBUG=1
+      - SECRET_KEY='django-insecure-n+m_j=ntw9skx#hu5_0ktt%a(i@drj3+1f_0zv*j(mc131q&i$$'
+    depends_on:
+      - redis
+  celery-beat:
+    network_mode: host
+    image: shore_phase1:latest
+    command: celery -A shore_phase1 beat -l info
+    volumes:
+      - ./shore_phase1:/home/shore_phase1
+    environment:
+      - DEBUG=1
+      - SECRET_KEY='django-insecure-n+m_j=ntw9skx#hu5_0ktt%a(i@drj3+1f_0zv*j(mc131q&i$$'
+    depends_on:
+      - redis

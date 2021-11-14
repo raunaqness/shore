@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+
+{% if message %}
+  <div class="alert alert-success alert-dismissible fade show">
+      <strong>Success!</strong> {{message}}
+  </div>
+{% endif %}
+
+<h1 class="mt-2">Create Product Alert</h1>
+<hr class="mt-0 mb-4">
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success">Create Product Alert</button>
+  </form>
+{% endblock %}

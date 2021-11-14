@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Product Alerts (Total : {{object_list|length}})</h2>
+
+    <a href="/alerts/create_product_alert">
+        <button type="submit" class="btn btn-primary">
+                Create New Product Alert
+        </button>
+    </a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+            <th scope="col">user</th>
+            <th scope="col">Alerting Frequency</th>
+            <th scope="col">Product search Phrase</th>
+            <th scope="col">Website</th>
+            <th scope="col">Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in object_list %}
+                <tr>
+                    <td>{{ alert.user }}</td>
+                    <td>{{ alert.alert_frequency }}</td>
+                    <td>{{ alert.product_search_phrase }}</td>
+                    <td>{{ alert.website }}</td>
+                    <td>{{ alert.created_at }}</td>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+        </table>
+
+{% endblock %}
+
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    alert_frequency = models.IntegerField(
+        # add index?
+        blank=False,
+        null=False,
+        default=2,
+        help_text="Frequency in minutes at which alert will be triggered"
+    )
+    product_search_phrase = models.CharField(
+        blank=False,
+        null=False,
+        max_length=50,
+        help_text="Search term for which user wants product results"
+    )
+    website = models.CharField(
+        null=False,
+        blank=False,
+        max_length=20,
+        choices=Website.get_choices()
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )

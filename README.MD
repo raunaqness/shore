@@ -7,7 +7,7 @@ Requirements:
 - docker-compose
 
 ```
-git clone 
+git clone https://github.com/raunaqness/shore_temp.git
 cd shore
 
 # build docker images

@@ -56,6 +56,7 @@ System Architecture Diagram
 
 - Product Alert Results
     - View [http://localhost:8000/alerts/get_all_product_alert_results](http://localhost:8000/alerts/get_all_product_alert_results)
+    - **NOTE** : might show empty, because Ebay API not working as of writing this
 
 
 #### Phase 2
